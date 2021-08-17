@@ -47,7 +47,48 @@ const createUser = async(req, res = response) => {
 
 }
 
+const updateUser = async(req, res) => {
+    const uid = req.params.id
+    try {
+        const userDB = await User.findById(uid);
+
+        if (!userDB) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'User ID does not exist'
+            })
+        }
+
+        // Uodates
+        const {password, google, email, ...fields} = req.body;
+        if (userDB.email !== email) {
+            const existEmail = await User.findOne({email})
+            if (existEmail) {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'Email already used by other user'
+                })
+            }
+        }
+        fields.email = email
+
+        const userUpdated = await User.findByIdAndUpdate(uid, fields, {new: true})
+
+        res.json({
+            ok: true,
+            user: userUpdated
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Unexpected error'
+        })
+    }
+}
+
 module.exports = {
     getUsers,
-    createUser
+    createUser,
+    updateUser
 }
