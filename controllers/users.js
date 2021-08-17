@@ -87,8 +87,34 @@ const updateUser = async(req, res) => {
     }
 }
 
+const deleteUser = async(req, res) => {
+    const uid = req.params.id;
+    try {
+        const userDB = await User.findById(uid);
+
+        if (!userDB) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'User ID does not exist'
+            })
+        }
+        await User.findByIdAndDelete(uid)
+        res.json({
+            ok: true,
+            msg: 'User deleted succesfully'
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'User not deleted, call administrator'
+        })
+    }
+}
+
 module.exports = {
     getUsers,
     createUser,
-    updateUser
+    updateUser,
+    deleteUser
 }
