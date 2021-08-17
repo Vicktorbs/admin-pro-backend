@@ -1,3 +1,5 @@
+const { response } = require("express");
+const bcrypt = require('bcryptjs')
 const User = require("../models/user");
 
 const getUsers = async(req, res) => {
@@ -10,17 +12,39 @@ const getUsers = async(req, res) => {
     })
 }
 
-const createUser = async(req, res) => {
-    const { name, password, email } = req.body;
+const createUser = async(req, res = response) => {
+    const { password, email } = req.body;
 
-    const user = new User(req.body);
+    try {
 
-    await user.save()
+        const existEmail = await User.findOne({email});
 
-    res.json({
-        ok: true,
-        user
-    })
+        if (existEmail) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Email already used'
+            })
+        }
+
+        const user = new User(req.body);
+
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(password, salt);
+        await user.save()
+    
+        res.json({
+            ok: true,
+            user
+        })
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Unexpected error'
+        })
+    }
+
 }
 
 module.exports = {
