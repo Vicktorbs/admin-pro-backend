@@ -16,7 +16,8 @@ app.use(express.json());
 dbConnection();
 
 // Routes
-app.use('/api/users', require('./routes/users'))
+app.use('/api/users', require('./routes/users'));
+app.use('/api/login', require('./routes/auth'));
 
 // mongodb+srv://mers_user:EFQajuI2Tsdb2itP@cluster0.2hyuw.mongodb.net/
 app.listen(process.env.PORT, () => {
