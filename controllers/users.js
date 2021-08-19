@@ -5,10 +5,23 @@ const { generateJWT } = require("../helpers/jwt");
 
 const getUsers = async(req, res) => {
 
-    const users = await User.find({}, 'name email role google');
+    const paginatorRange = Number(req.query.range) || 0;
 
+    // const users = await User.find({}, 'name email role google')
+    //                         .skip(paginatorRange)
+    //                         .limit(6);
+    // const totalRecords = await User.count()
+
+    // Promesas multiples ejecutadas simultaneamente para disminuir el tiempo de carga
+    const [users, totalRecords] = await Promise.all([
+        User.find({}, 'name email role google')
+                            .skip(paginatorRange)
+                            .limit(6),
+        User.countDocuments()
+    ])
     res.json({
         ok: true,
+        totalRecords,
         users
     })
 }
