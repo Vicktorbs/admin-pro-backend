@@ -8,7 +8,11 @@ const router = Router();
 
 router.get('/', getHostpitals);
 router.post('/', 
-    [], 
+    [
+        validateJWT,
+        check('name', 'Name is required').not().isEmpty(),
+        validarCampos
+    ], 
     createHostpital
 );
 router.put('/:id', 

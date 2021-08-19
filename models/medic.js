@@ -6,16 +6,17 @@ const MedicSchema = Schema({
         required: true
     },
     img: {
-        type: String,
-        required: true
+        type: String
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     hospital: {
         type: Schema.Types.ObjectId,
-        ref: 'Hospital'
+        ref: 'Hospital',
+        required: true
     }
 });
 
