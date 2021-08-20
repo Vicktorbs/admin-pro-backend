@@ -21,6 +21,7 @@ app.use('/api/hospitals', require('./routes/hospitals'));
 app.use('/api/medics', require('./routes/medics'));
 app.use('/api/login', require('./routes/auth'));
 app.use('/api/todo', require('./routes/searches'));
+app.use('/api/upload', require('./routes/uploads'));
 
 // mongodb+srv://mers_user:EFQajuI2Tsdb2itP@cluster0.2hyuw.mongodb.net/
 app.listen(process.env.PORT, () => {

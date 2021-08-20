@@ -14,7 +14,7 @@ const getUsers = async(req, res) => {
 
     // Promesas multiples ejecutadas simultaneamente para disminuir el tiempo de carga
     const [users, totalRecords] = await Promise.all([
-        User.find({}, 'name email role google')
+        User.find({}, 'name email role google img')
                             .skip(paginatorRange)
                             .limit(6),
         User.countDocuments()
