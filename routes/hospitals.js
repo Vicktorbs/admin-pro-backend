@@ -16,9 +16,13 @@ router.post('/',
     createHostpital
 );
 router.put('/:id', 
-    [], 
+    [
+        validateJWT,
+        check('name', 'Name is required').not().isEmpty(),
+        validarCampos
+    ], 
     updateHostpitals
  );
-router.delete('/:id', deleteHostpitals);
+router.delete('/:id', validateJWT, deleteHostpitals);
 
 module.exports = router;
