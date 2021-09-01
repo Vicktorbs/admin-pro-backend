@@ -1,1 +1,13 @@
 node_modules
+
+uploads/hopitals/**.jpg
+uploads/hopitals/**.png
+uploads/hopitals/**.gif
+
+uploads/users/**.png
+uploads/users/**.jpg
+uploads/users/**.gif
+
+uploads/medics/**.jpg
+uploads/medics/**.png
+uploads/medics/**.gif
