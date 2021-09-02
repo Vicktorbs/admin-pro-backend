@@ -1,5 +1,7 @@
 const express = require('express');
-require('dotenv').config()
+const path = require('path');
+
+require('dotenv').config();
 const { dbConnection } = require('./db/config');
 const cors = require('cors');
 
@@ -25,6 +27,11 @@ app.use('/api/medics', require('./routes/medics'));
 app.use('/api/login', require('./routes/auth'));
 app.use('/api/todo', require('./routes/searches'));
 app.use('/api/upload', require('./routes/uploads'));
+
+// SPA
+app.use('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'public/index.html'))
+})
 
 // mongodb+srv://mers_user:EFQajuI2Tsdb2itP@cluster0.2hyuw.mongodb.net/
 app.listen(process.env.PORT, () => {
